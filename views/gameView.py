@@ -331,19 +331,6 @@ class GameView(View):
                 
         # vidi triba li pomicucu platformu usmjerit u drugu stranu
         for platforma in self.scena.get_sprite_list(POMICUCE_PLATFORME):
-
-            if (
-                platforma.boundary_right
-                and platforma.right > platforma.boundary_right
-                and platforma.change_x > 0
-            ):
-                platforma.change_x *= -1
-            if (
-                platforma.boundary_left
-                and platforma.left < platforma.boundary_left
-                and platforma.change_x < 0
-            ):
-                platforma.change_x *= -1
             if (
                 platforma.boundary_top 
                 and platforma.top > platforma.boundary_top 
@@ -413,5 +400,10 @@ class GameView(View):
         
         if self.rezultat == 385:
             self.window.show_view(self.window.views["winner"])
+            
+        if self.igrac_sprite.bottom < 0:
+            arcade.play_sound(self.game_over)
+            self.window.show_view(self.window.views["game_over"])
+            return
         
         self.kamera_player()
